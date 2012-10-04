@@ -92,8 +92,8 @@ public class MkParser {
         Object object = bean.newInstance();
 
         // map the class to elements and his respective annotations
-        List<Element<Field, MkMapping>> elements =
-                AnnotationProcessor.getAnnotatedFields(MkMapping.class, object.getClass());
+        List<Element<Field, MkMapping>> elements = AnnotationProcessor.
+                getAnnotatedFields(MkMapping.class, object.getClass());
 
         // iterate over the mapped elements and recognize his instance and realize
         // automatic cast to the typed field in the bean
@@ -107,21 +107,23 @@ public class MkParser {
             if (f.getType().isPrimitive()) {
 
                 if (f.getType().isAssignableFrom(boolean.class)) {
-                    f.set(object, Boolean.valueOf((String) properties.get(e.getAnnotation().from())));
+                    f.set(object, Boolean.valueOf((String) properties.get(
+                            e.getAnnotation().from())));
                 } else if (f.getType().isAssignableFrom(int.class)) {
-                    int intValue = Integer.parseInt(properties.get(e.getAnnotation().from()).toString());
+                    int intValue = Integer.parseInt(properties.get(
+                            e.getAnnotation().from()).toString());
                     f.set(object, intValue);
                 } else if (f.getType().isAssignableFrom(double.class)) {
-                    double doubleValue = Double.parseDouble(properties.get(e.getAnnotation().from()).toString());
+                    double doubleValue = Double.parseDouble(properties.get(
+                            e.getAnnotation().from()).toString());
                     f.set(object, doubleValue);
                 } else if (f.getType().isAssignableFrom(long.class)) {
-                    long longValue = Long.parseLong(properties.get(e.getAnnotation().from()).toString());
+                    long longValue = Long.parseLong(properties.get(
+                            e.getAnnotation().from()).toString());
                     f.set(object, longValue);
                 }
             } else {
-
                 // if object, cast normal to the complex object (String, Integer..)
-
                 f.set(object, f.getType().cast(properties.get(e.getAnnotation().from())));
             }
         }
