@@ -47,10 +47,11 @@ public class Mikrotik {
      * Object to log events on console
      */
     private static final MkLogger LOG = new MkLogger(Mikrotik.class);
+    
     /**
      * The connection object
      */
-    private static Connection connection;
+    private Connection connection;
 
     /**
      * Creates a new connection and request the login to make API ready to send
@@ -63,7 +64,7 @@ public class Mikrotik {
      * @param login the login of admin user
      * @param password the password of user
      */
-    public static void connect(String address, String login, String password) {
+    public void connect(String address, String login, String password) {
         connect(address, 8728, login, password);
     }
 
@@ -76,7 +77,7 @@ public class Mikrotik {
      * @param login the login of admin user
      * @param password the password of user
      */
-    public static void connect(String address, int port, String login, String password) {
+    public void connect(String address, int port, String login, String password) {
         LOG.info("Connecting to: " + address);
 
         connection = new Connection(address, port);
@@ -94,9 +95,14 @@ public class Mikrotik {
      *
      * @throws IOException if any problem occur
      */
-    public static void disconnect() throws IOException {
+    public void disconnect() {
         LOG.info("Disconnecting...");
-        connection.disconnect();
+        
+        try {
+            connection.disconnect();
+        } catch (IOException ex) {
+            LOG.error("Errror when try to disconnect from router", ex);
+        }
     }
 
     /**
@@ -108,7 +114,7 @@ public class Mikrotik {
      *
      * @throws IOException if any problem occur
      */
-    public static String runCommand(String command) throws IOException {
+    public String runCommand(String command) throws IOException {
 
         if (connection == null) {
             throw new RuntimeException("Connect firts!");
@@ -127,7 +133,7 @@ public class Mikrotik {
      *
      * @throws IOException if any problem occur
      */
-    public static String runCommand(MkCommand command) throws IOException {
+    public String runCommand(MkCommand command) throws IOException {
 
         if (connection == null) {
             throw new RuntimeException("Connect firts!");
@@ -144,7 +150,7 @@ public class Mikrotik {
      *
      * @throws Exception if any problem occur
      */
-    public static List<HotspotActiveUser> listHotspotActiveUsers() throws Exception {
+    public List<HotspotActiveUser> listHotspotActiveUsers() throws Exception {
 
         List<HotspotActiveUser> activeUsers = MkParser.asListOfObjects(
                 HotspotActiveUser.class, runCommand("/ip/hotspot/active/print"));
@@ -159,7 +165,7 @@ public class Mikrotik {
      *
      * @throws Exception if any problem occur
      */
-    public static List<HotspotHost> listHotspotHosts() throws Exception {
+    public List<HotspotHost> listHotspotHosts() throws Exception {
 
         List<HotspotHost> hotspotHosts = MkParser.asListOfObjects(
                 HotspotHost.class, runCommand("/ip/hotspot/host/print"));
@@ -175,7 +181,7 @@ public class Mikrotik {
      *
      * @throws Exception if any problem occur
      */
-    public static List<NetworkInterface> listNetworkInterfaces() throws Exception {
+    public List<NetworkInterface> listNetworkInterfaces() throws Exception {
 
         List<NetworkInterface> networkInterfaces = MkParser.asListOfObjects(
                 NetworkInterface.class, runCommand("/ip/address/print"));

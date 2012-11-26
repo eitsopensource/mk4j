@@ -44,6 +44,7 @@ public class CommandManager {
      * The object to log events to console
      */
     private static final MkLogger LOG = new MkLogger(CommandManager.class);
+    
     private DataInputStream consoleIn;
     private DataOutputStream consoleOut;
 

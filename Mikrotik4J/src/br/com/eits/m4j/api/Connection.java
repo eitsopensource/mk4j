@@ -48,16 +48,20 @@ public class Connection extends Thread {
      * Object to log events on console
      */
     private static final MkLogger LOG = new MkLogger(Connection.class);
+    
     private int port;
     private String address;
+    
     /**
      * The connection tunnel
      */
     private Socket socket;
+    
     /**
      * The connection flag
      */
     private boolean connected;
+   
     /**
      * The command processor, this object handles the commands sent and the
      * results obtained
