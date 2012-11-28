@@ -4,3 +4,4 @@
 *.jar
 *.war
 *.ear
+/Mikrotik4J/nbproject/private/
