@@ -5,3 +5,5 @@
 *.war
 *.ear
 /Mikrotik4J/nbproject/private/
+/Mikrotik4J/dist/
+/Mikrotik4J/build/
