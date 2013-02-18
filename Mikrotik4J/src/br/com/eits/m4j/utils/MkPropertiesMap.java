@@ -73,13 +73,13 @@ public class MkPropertiesMap extends HashMap<Integer, Properties> {
     }
 
     /**
-     * Check if the map contains the provided Key
+     * Check if the map contains the provided block
      *
      * @param blockId the key to check
      *
      * @return <code>true</code> if contains, <code>false</code> otherwise
      */
-    public boolean containsKey(Integer blockId) {
+    public boolean containsBlock(Integer blockId) {
         return super.containsKey(blockId);
     }
 

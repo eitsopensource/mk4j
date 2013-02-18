@@ -67,9 +67,19 @@ public class MkCommand {
      * @param value the parameter value
      */
     public void appendParameter(String parameter, String value) {
-        parameters.add(new Parameter(parameter, value));
+        parameters.add(new Parameter(parameter, value, ParameterType.COMMON));
     }
 
+    /**
+     * Add a where condition to the command string
+     * 
+     * @param parameter the parameter key
+     * @param value the value for the given key
+     */
+    public void appendWhere(String parameter, String value) {
+        parameters.add(new Parameter(parameter, value, ParameterType.WHERE));
+    }
+    
     /**
      * Concatenates the parameters of a command string to be sent to the router
      *
@@ -79,21 +89,21 @@ public class MkCommand {
 
         StringBuilder command = new StringBuilder(baseCommand);
 
-        command.append("\n");
-        command.append("=");
-
         for (int i = 0; i < parameters.size(); i++) {
 
             Parameter p = parameters.get(i);
 
-            command.append(p.getParameter());
-            command.append("=");
-            command.append(p.getValue());
-
-            if (i != parameters.size() - 1) {
-                command.append("\n");
+            if (p.getType() == ParameterType.COMMON) {
+                command.append("\n=");
+                command.append(p.getParameter());
                 command.append("=");
-            }
+                command.append(p.getValue());
+            } else {
+                command.append("\n?");
+                command.append(p.getParameter());
+                command.append("=");
+                command.append(p.getValue());
+            }            
         }
 
         return command.toString();
@@ -111,6 +121,7 @@ public class MkCommand {
 
         private String parameter;
         private String value;
+        private ParameterType type;        
 
         /**
          * Constructor thats recei one parameter and one value for<br/> this
@@ -119,9 +130,10 @@ public class MkCommand {
          * @param parameter the parameter (key)
          * @param value the value for the parametert (value)
          */
-        public Parameter(String parameter, String value) {
+        public Parameter(String parameter, String value, ParameterType type) {
             this.parameter = parameter;
             this.value = value;
+            this.type = type;
         }
 
         /**
@@ -137,5 +149,19 @@ public class MkCommand {
         public String getParameter() {
             return parameter;
         }
+
+        /**
+         * @return the parameter type
+         */
+        public ParameterType getType() {
+            return type;
+        }
+    }
+    
+    /**
+     * Mark if the command is where or common command
+     */
+    private enum ParameterType {
+        WHERE, COMMON;
     }
 }
