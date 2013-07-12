@@ -5,6 +5,7 @@
 	<artifactId>mk4j-api</artifactId>
 	<version>1.0.0-RELEASE</version>
 	<name>MK4J - Mikrotik for Java API</name>
+	
 	<build>
 		<plugins>
 			<plugin>
